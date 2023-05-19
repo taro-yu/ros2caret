@@ -6,7 +6,7 @@ on:
       - v\d\.\d\.\d
 
 jobs:
-    caret-version:
+  caret-version:
     
     permissions:
       actions: write
