@@ -7,7 +7,8 @@ on:
 
 jobs:
     caret-version:
-      permissions:
+    
+    permissions:
       actions: write
       checks: write
       contents: write
