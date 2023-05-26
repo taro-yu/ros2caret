@@ -23,12 +23,5 @@ from ..__version__ import __version__
 class CaretVersionVerb(VerbExtension):
 
     def main(self, *, args):
-        # setup_path = f'{os.path.dirname(os.path.realpath(__file__))}/../../setup.py'
-        # with open(setup_path, 'r') as file:
-        #     for line in file:
-        #         version = re.search("version='(.*)',", line)
-        #         if version is not None:
-        #             print(version.group(1))
-        #             break
         version= __version__
         print(version)
