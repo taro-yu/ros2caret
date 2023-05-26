@@ -55,6 +55,7 @@ jobs:
         
       - name: Commit and push changes
         run: |
+          pwd
           sed -i "s/__version__=.*/__version__='${{steps.tag.outputs.TAG_NAME}}'/" /ros2caret/__version__.py
           git add setup.py
           git commit -m "chore: update version to ${{ steps.tag.outputs.TAG_NAME }}" -s
