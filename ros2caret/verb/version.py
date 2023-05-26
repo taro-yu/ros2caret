@@ -17,7 +17,7 @@ import os
 import re
 
 from ros2caret.verb import VerbExtension
-import ros2caret
+from ..__version__ import __version__
 
 
 class CaretVersionVerb(VerbExtension):
@@ -30,5 +30,5 @@ class CaretVersionVerb(VerbExtension):
         #         if version is not None:
         #             print(version.group(1))
         #             break
-        version= ros2caret.__version__
+        version= __version__
         print(version)
