@@ -23,5 +23,5 @@ from ..__version__ import __version__
 class CaretVersionVerb(VerbExtension):
 
     def main(self, *, args):
-        version= __version__
+        version = __version__
         print(version)
