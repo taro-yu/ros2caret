@@ -21,7 +21,6 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-
       - name: Set up Git
         run: |
           git config --global user.name github-actions
@@ -32,7 +31,7 @@ jobs:
         run: |
           tag=$(curl -s https://api.github.com/repos/${GITHUB_REPOSITORY}/tags | jq -r .[0].name)
           branches=$(curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/branches" | jq -r '.[].name')
-          
+
           echo "TAG_NAME=$tag" >> "$GITHUB_OUTPUT"
 
           max_version=""
@@ -46,19 +45,24 @@ jobs:
             fi
           done
           echo "BRANCH_NAME=$max_version_branch" >> "$GITHUB_OUTPUT"
-      
 
       - name: Checkout repository2
         uses: actions/checkout@v3
         with:
           ref: ${{steps.tag.outputs.BRANCH_NAME}}
-        
+
       - name: Commit and push changes
         run: |
           sed -i "s/__version__ =.*/__version__ = '${{steps.tag.outputs.TAG_NAME}}'/" ros2caret/__version__.py
           git add ros2caret/__version__.py
           git commit -m "chore: update version to ${{ steps.tag.outputs.TAG_NAME }}" -s
           git push origin ${{steps.tag.outputs.BRANCH_NAME}}
+
+      - name: Re-create tag
+        run: |
+          git push -d origin ${{ steps.tag.outputs.TAG_NAME }}
+          git tag ${{ steps.tag.outputs.TAG_NAME }}
+          git push origin ${{ steps.tag.outputs.TAG_NAME }}
 
       - name: Create PR to main branch
         run: |
