@@ -3,7 +3,7 @@ name: Update Version and Create PR
 on:
   push:
     tags:
-      - v\d\.\d\.\d
+      - v*
 
 jobs:
   update-version-and-create-pr:
@@ -30,21 +30,9 @@ jobs:
         id: tag
         run: |
           tag=$(curl -s https://api.github.com/repos/${GITHUB_REPOSITORY}/tags | jq -r .[0].name)
-          branches=$(curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/branches" | jq -r '.[].name')
-
+          branch="rc/$tag"
           echo "TAG_NAME=$tag" >> "$GITHUB_OUTPUT"
-
-          max_version=""
-          for branch in $branches; do
-            if [[ $branch == rc/v* ]]; then
-              version=$(echo $branch | sed -E 's/rc\/v([0-9]+\.[0-9]+\.[0-9]+)/\1/')
-              if [[ -z $max_version || $version > $max_version ]]; then
-                max_version=$version
-                max_version_branch=$branch
-              fi
-            fi
-          done
-          echo "BRANCH_NAME=$max_version_branch" >> "$GITHUB_OUTPUT"
+          echo "BRANCH_NAME=$branch" >> "$GITHUB_OUTPUT"
 
       - name: Checkout repository2
         uses: actions/checkout@v3
