@@ -33,7 +33,7 @@ jobs:
           branch="rc/$tag"
           # branches=$(curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/branches" | jq -r '.[].name')
 
-          # echo "TAG_NAME=$tag" >> "$GITHUB_OUTPUT"
+          echo "TAG_NAME=$tag" >> "$GITHUB_OUTPUT"
 
           # IFS='.' read -ra max_version <<< "0.0.0"
           # for branch in $branches; do
